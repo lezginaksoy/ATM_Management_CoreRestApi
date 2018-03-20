@@ -7,10 +7,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using ATM_Management_CoreRestApi.Models;
 using Microsoft.EntityFrameworkCore;
 using ATM_Management_CoreRestApi.Data.Repository;
 using ATM_Management_CoreRestApi.Data.Interface;
+using Swashbuckle.AspNetCore.Swagger;
+using ATM_Management_CoreRestApi.Data.Model;
 
 namespace ATM_Management_CoreRestApi
 {
@@ -34,12 +35,16 @@ namespace ATM_Management_CoreRestApi
             // Add framework services.
             services.AddMvc();
 
-     
+      
             services.AddEntityFrameworkNpgsql().AddDbContext<AtmManagmentContext>(opt =>
             opt.UseNpgsql(Configuration.GetConnectionString("AtmConnection")));
 
            // services.AddSingleton(ITerminalRepository,TerminalRepository);
             services.AddSingleton<ITerminalRepository, TerminalRepository>();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "Core RESTful API", Description = "using swagger for core rest api", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,6 +54,16 @@ namespace ATM_Management_CoreRestApi
             loggerFactory.AddDebug();
 
             app.UseMvc();
+
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS etc.), specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", " Core RESTful API v1");
+            });
+
+
         }
     }
 }

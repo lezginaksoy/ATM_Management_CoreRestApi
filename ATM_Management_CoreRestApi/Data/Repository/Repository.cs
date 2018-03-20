@@ -1,4 +1,4 @@
-﻿using ATM_Management_CoreRestApi.Models;
+﻿using ATM_Management_CoreRestApi.Data.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
