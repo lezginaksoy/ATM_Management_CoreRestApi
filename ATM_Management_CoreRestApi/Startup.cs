@@ -39,8 +39,8 @@ namespace ATM_Management_CoreRestApi
             services.AddEntityFrameworkNpgsql().AddDbContext<AtmManagmentContext>(opt =>
             opt.UseNpgsql(Configuration.GetConnectionString("AtmConnection")));
 
-           // services.AddSingleton(ITerminalRepository,TerminalRepository);
-            services.AddSingleton<ITerminalRepository, TerminalRepository>();
+            services.AddTransient<ITerminalRepository, TerminalRepository>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "Core RESTful API", Description = "using swagger for core rest api", Version = "v1" });
