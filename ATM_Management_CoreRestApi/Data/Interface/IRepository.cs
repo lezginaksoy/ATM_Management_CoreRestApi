@@ -13,11 +13,11 @@ namespace ATM_Management_CoreRestApi.Data.Interface
 
         T GetById(int id);
 
-        void Create(T entity);
+        int Create(T entity);
 
-        void Update(T entity);
+        int Update(T entity);
 
-        void Delete(T entity);
+        int Delete(T entity);
 
         int Count(Func<T, bool> predicate);
 

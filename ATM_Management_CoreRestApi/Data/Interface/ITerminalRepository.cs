@@ -12,5 +12,12 @@ namespace ATM_Management_CoreRestApi.Data.Interface
         IEnumerable<Terminal> FindWithCode(Func<Terminal, bool> predicate);
         IEnumerable<Terminal> FindWithBrand(Func<Terminal, bool> predicate);
 
+       // TEntity FindWithCode(U code);       
+        //int AddTerminal(TEntity b);
+        //int UpdateTerminal(U id, TEntity b);
+        //int DeleteTerminal(U id);
+
+
+
     }
 }

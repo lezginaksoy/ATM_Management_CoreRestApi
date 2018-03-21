@@ -1,4 +1,5 @@
 ﻿using ATM_Management_CoreRestApi.Data.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,20 +17,30 @@ namespace ATM_Management_CoreRestApi.Data.Interface
             _context = Context;
         }
 
-        protected void Save() => _context.SaveChanges();
+        protected int Save() => _context.SaveChanges();
 
-        public void Create(T entity)
+        public int Create(T entity)
         {
             _context.Add(entity);
+            int RetVal = Save();
+            return RetVal;
 
-            Save();
         }
 
-        public virtual void Delete(T entity)
+        public virtual int Delete(T entity)
         {
+            int RetVal = 0;
             _context.Remove(entity);
+             RetVal = Save();
+            return RetVal;
+        }
 
-            Save();
+        public virtual int Update(T entity)
+        {
+            int RetVal = 0;
+            _context.Entry(entity).State = EntityState.Modified;
+            RetVal = Save();
+            return RetVal;
         }
 
         public IEnumerable<T> GetAll()
@@ -42,13 +53,7 @@ namespace ATM_Management_CoreRestApi.Data.Interface
             return _context.Set<T>().Find(id);
         }
 
-        public void Update(T entity)
-        {
-          //  _context.Entry(entity).State = EntityState.Modified;
-
-            Save();
-        }
-
+   
         public IEnumerable<T> Find(Func<T, bool> predicate)
         {
             return _context.Set<T>().Where(predicate);

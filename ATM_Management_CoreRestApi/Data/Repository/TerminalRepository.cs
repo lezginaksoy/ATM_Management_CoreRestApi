@@ -33,5 +33,33 @@ namespace ATM_Management_CoreRestApi.Data.Repository
         {
             return _context.Terminal.Include(a => a.TerminalCode);
         }
+
+
+        public override int Delete(Terminal term)
+        {
+            int RetVal = 0;
+            var ExistTerm = _context.Terminal.FirstOrDefault(b => b.TerminalCode == term.TerminalCode);
+            if (ExistTerm != null)
+            {
+                _context.Terminal.Remove(term);
+                RetVal = _context.SaveChanges();
+            }
+            return RetVal;
+        }
+
+        public override int Update(Terminal term)
+        {
+            int RetVal = 0;
+            var ExistTerm = _context.Terminal.Find(term.TerminalCode);
+            if (ExistTerm != null)
+            {
+                term.Desc = term.Desc;
+                term.BrandId = term.BrandId;
+                RetVal = _context.SaveChanges();
+            }
+            return RetVal;
+        }
+
+
     }
 }
